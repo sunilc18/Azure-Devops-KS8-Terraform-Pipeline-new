@@ -11,20 +11,29 @@ stages:
   - job: Firstjob
     steps:
     - bash: echo Build FirstJob
-      displayName: 'Build Job process'
+      displayName: 'Build Job process-1'
+  - job: Secondiob
+    steps:
+    - bash: echo Build SecondJob
+      displayName: 'Build Job process-2'
 - stage: Dev
+  dependsOn: Build
   jobs:
   - job: DevJob
     steps:
     - bash: echo build DevJob
       displayName: 'Dev Job process'
 - stage: QA
+  dependsOn: Dev
   jobs:
   - job: QAJob
     steps:
     - bash: echo build QA Job
       displayName: 'QA Job process'
 - stage: PRD
+  dependsOn:
+  - Dev
+  - QA
   jobs:
   - job: PrdJob
     steps:
