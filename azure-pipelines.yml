@@ -34,3 +34,10 @@ jobs:
   steps:
   - script: echo job4!
     displayName: 'Run a one-liner script'
+- job: Stages
+  dependsOn:
+  - Stage3
+  - Stage4
+  steps:
+  - script: echo job5!
+  displayName: 'Run a one-liner script'
