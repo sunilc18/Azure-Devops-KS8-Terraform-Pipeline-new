@@ -30,7 +30,7 @@ jobs:
 - job: Stage4
   dependsOn:
   - Stage2
-  - Satge3
+  - Stage3
   steps:
   - script: echo job4!
     displayName: 'Run a one-liner script'
