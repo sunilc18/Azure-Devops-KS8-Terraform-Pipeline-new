@@ -24,7 +24,7 @@ stages:
     - bash: echo build DevJob
       displayName: 'Dev Job process'
 - stage: QA
-  dependsOn: Dev
+  dependsOn: Build
   jobs:
   - job: QAJob
     steps:
