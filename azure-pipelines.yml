@@ -40,4 +40,4 @@ jobs:
   - Stage4
   steps:
   - script: echo job5!
-  displayName: 'Run a one-liner script'
+    displayName: 'Run a one-liner script'
