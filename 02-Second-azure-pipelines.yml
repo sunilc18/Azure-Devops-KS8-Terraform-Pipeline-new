@@ -11,33 +11,59 @@ stages:
   - job: Firstjob
     steps:
     - bash: echo Build FirstJob
-      displayName: 'Build Job process-1'
-  - job: Secondiob
-    steps:
-    - bash: echo Build SecondJob
-      displayName: 'Build Job process-2'
-- stage: Dev
-  dependsOn: Build
-  jobs:
-  - job: DevJob
-    steps:
-    - bash: echo build DevJob
-      displayName: 'Dev Job process'
-- stage: QA
-  dependsOn: Build
-  jobs:
-  - job: QAJob
-    steps:
-    - bash: echo build QA Job
-      displayName: 'QA Job process'
-- stage: PRD
-  dependsOn:
-  - Dev
-  - QA
-  jobs:
-  - job: PrdJob
-    steps:
-    - bash: echo build PRD job
-      displayName: 'PRD Job process'
+    - bash: echo $(PipelineLevelVariable)
+    - bash: echo $(Build.BuildNumber)
+    - bash: echo $(Build.BuildID)
+    - bash: echo $(Build.SourceBranchName)
+    - bash: echo $(Build.SourcesDirectory)
+    - bash: echo $(System.DefaultWorkingDirectory)
+    - bash: ls -R $(System.DefaultWorkingDirectory)
+    - bash: echo $(Build.ArtifactStagingDirectory)
+    - bash: java -version
+    - bash: node --version
+    - bash: python --version
+    - bash: mvn -version
+    - bash: ls -R $(Build.ArtifactStagingDirectory)
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: |
+          **/*.yaml
+          **/*/tf
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - bash: ls -R $(Build.ArtifactstagingDirectory)
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+#   - job: Secondiob
+#     steps:
+#     - bash: echo Build SecondJob
+#       displayName: 'Build Job process-2'
+# - stage: Dev
+#   dependsOn: Build
+#   jobs:
+#   - job: DevJob
+#     steps:
+#     - bash: echo build DevJob
+#       displayName: 'Dev Job process'
+# - stage: QA
+#   dependsOn: Build
+#   jobs:
+#   - job: QAJob
+#     steps:
+#     - bash: echo build QA Job
+#       displayName: 'QA Job process'
+# - stage: PRD
+#   dependsOn:
+#   - Dev
+#   - QA
+#   jobs:
+#   - job: PrdJob
+#     steps:
+#     - bash: echo build PRD job
+#       displayName: 'PRD Job process'
 
 
